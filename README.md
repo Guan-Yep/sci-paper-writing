@@ -464,7 +464,7 @@ doc.save("paper.docx")
 | v1.2 | 新增代码模板 `code_templates.py`：setup_document, add_figure, add_table_with_caption, add_equation |
 | v1.3 | **关键修复**：新增图片物理嵌入强制规则，杜绝"有引用无图片"缺陷 |
 | v1.4 | 新增图片存在性检查、插入顺序验证、fallback 降级处理 |
-| **v1.5** | **6 大增强功能**：data_to_charts（实验数据→图表）、reference_fetcher（文献自动获取）、docx_validator（格式预检）、docx_to_latex（LaTeX 转换）、docx_to_html（交互式网页）、venue_recommender（会议推荐）；**智能表格 bold 检查**：三层过滤（属性表识别/方向检测/未知跳过），8 warnings → **0 warnings**；**扩展关键词库**：70+ 指标词 / 40+ 步骤词，覆盖多学科；**双领域规范**：新增 `structure_contract_nlp.md`（BERT + Transformer 提炼，ACL 官方格式校验），正式支持 NLP 论文生成 |
+| **v1.5** | **6 大增强功能**：data_to_charts（实验数据→图表，70+ 指标词跨领域覆盖）、reference_fetcher（CrossRef + Semantic Scholar 联网检索，防 hallucination）、docx_validator（6 维度预检，智能表格 bold 三层过滤，8 warnings → 0 warnings）、docx_to_latex（5 个会议模板）、docx_to_html（暗色模式 / 图片缩放 / 引用跳转）、venue_recommender（15 venue 匹配评分）；**双领域规范**：`structure_contract_cv.md`（ResNet 提炼的漏斗叙事）+ `structure_contract_nlp.md`（BERT + Transformer 提炼，ACL 官方 A4/作者年份/Limitations 强制）；**领域路由协议**：用户说 CV/NLP 自动加载合同，其他领域先搜论文再确认再写；**LaTeX 模板**：`latex_template.md`（文档类速查 + 完整双栏代码 + 13 个关键包 + 编译命令）；**reference_fetcher 联网验证**：4 场景测试通过，修复 type filter / venue 黑名单 / SS 429 退避 / 编码 / 去重共 5 个问题；**MIT License**；删除过时的 workflow_log.md |
 
 ---
 
