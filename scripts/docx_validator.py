@@ -340,7 +340,7 @@ class DOCXValidator:
             if missing:
                 self.log_issue('Structure',
                     f'{parent} section missing subsection(s): {", ".join(missing)}. '
-                    f'Per structure_contract.md, {parent} MUST have all subsections.', 'ERROR')
+                    f'Per structure_contract_cv.md, {parent} MUST have all subsections.', 'ERROR')
             else:
                 print(f"    PASS: {parent} has all required subsections ({', '.join(subs)})")
 

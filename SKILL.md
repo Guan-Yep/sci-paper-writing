@@ -19,23 +19,71 @@ Produce complete, publication-quality scientific research papers with proper str
 
 ```
 User request to write/format a scientific paper
-├── Determine target venue and output format
+│
+├── Step 0: Domain Detection
+│   ├── User specified CV/CVPR/ICCV/ECCV?       → Load structure_contract_cv.md
+│   ├── User specified NLP/ACL/EMNLP/NAACL?      → Load structure_contract_nlp.md
+│   ├── User specified other domain (e.g., "robotics", "materials")?
+│   │   └── Run "Unknown Domain" protocol (see §Domain Routing Rules)
+│   └── User did NOT specify domain?
+│       └── ASK: "这篇论文是哪个领域的？ CV / NLP / 其他"
+│           ├── CV  → Load structure_contract_cv.md
+│           ├── NLP → Load structure_contract_nlp.md
+│           └── 其他 → User types domain name → Run "Unknown Domain" protocol
+│
+├── Determine output format
 │   ├── Default: DOCX (collaborative drafting)
-│   └── Camera-ready: PDF (LaTeX template)
+│   ├── Camera-ready: PDF (LaTeX template → references/latex_template.md)
 │   └── Oral presentation: PPTX (slides derived from paper)
-├── Load reference contracts
-│   ├── references/structure_contract.md   → Section hierarchy, narrative arcs
-│   ├── references/style_contract.md       → Typography, layout, math notation
-│   ├── references/figure_table_guidelines.md → Figures, tables, equations rules
-│   └── references/latex_template.md       → LaTeX template with packages, figures, tables, bibliography
+│
+├── Load common reference contracts (loaded regardless of domain)
+│   ├── references/style_contract.md            → Typography, layout, math notation
+│   ├── references/figure_table_guidelines.md    → Figures, tables, equations rules
+│   └── references/latex_template.md            → LaTeX template code
+│
 ├── Execute writing pipeline
 │   ├── Phase 1: Plan (venue, page limit, section budget)
 │   ├── Phase 2: Chart assets (generate all figures and tables)
-│   ├── Phase 3: Draft all sections (narrative logic per contract)
+│   ├── Phase 3: Draft all sections (narrative logic per loaded contract)
 │   ├── Phase 4: Polish (typography, cross-references, formatting)
 │   └── Phase 5: Convert to requested output format
+│
 └── Deliver complete paper with all required sections and visual elements
 ```
+
+### Domain Routing Rules
+
+**CV / NLP (known domains)** — load pre-built contract immediately and proceed.
+
+**Unknown domain** (e.g., robotics, materials, biology) — follow this protocol:
+
+```
+Step 1: Quick Scan (2-3 rounds)
+├── Search arxiv or venue proceedings for 1-2 representative papers
+├── Extract: section hierarchy, Introduction opening style, citation format
+└── Identify: official formatting guide if available (e.g., IEEE RAS for robotics)
+
+Step 2: Confirm with user
+├── Tell user what was found:
+│   "我查到了 [Conference Name] [Year] 的一篇 [Domain] 论文，
+│    结构是 Intro → Related Work → Method → Experiments → Conclusion，
+│    引用用 [n] 编号制（IEEE 风格）。
+│    我按这个结构来写，可以吗？"
+└── Wait for user confirmation before drafting
+
+Step 3: Draft paper
+├── Use the confirmed structure as the writing contract
+└── Proceed with Phases 1-5 normally
+
+Step 4: Post-generation reminder
+└── "注意：当前结构是基于 2 篇论文快速归纳的。投稿前请对照目标会议的官方模板检查格式要求。"
+```
+
+**Important**: Do NOT pretend to have a pre-built contract for unknown domains. Always:
+- Be transparent about the source (which papers were scanned)
+- Let the user confirm the structure before drafting
+- Remind the user to verify against the official template
+
 
 ## Phase 1: Plan
 
@@ -116,7 +164,7 @@ Title (centered, 17pt bold)
 └── Appendices A-C (optional)
 ```
 
-**Critical rules** (see references/structure_contract.md for full narrative logic):
+**Critical rules** (see references/structure_contract_cv.md for full narrative logic):
 - Introduction must execute the "funnel" narrative arc: broad → narrow → contribution
 - Related Work must be organized by theme, not by chronology
 - Method section MUST have subsections 3.1-3.4; Experiments MUST have 4.1-4.3
@@ -157,7 +205,7 @@ Apply typography and formatting per references/style_contract.md:
 | Format | Tool/Method | Layout | Best For |
 |:---|:---|:---|:---|
 | DOCX | C# + OpenXML SDK or python-docx | Single column only | Collaborative drafting; advisor review |
-| PDF | LaTeX (IEEEtran / CVPR / NeurIPS template) | True double column | Camera-ready submission |
+| PDF | LaTeX (see references/latex_template.md for template code, packages, and compilation) | True double column | Camera-ready submission |
 | PPTX | Derive from paper sections | Slide layout | Oral presentation |
 
 ### Single-Column vs Double-Column
@@ -339,7 +387,8 @@ python scripts/venue_recommender.py --topic "NLP" --results "SOTA on GLUE 89.4%"
 
 This skill includes the following reference documents. Load the relevant file when the user request touches that domain:
 
-- **references/structure_contract.md** — Section hierarchy, narrative arc per section, paragraph-level patterns (Claim-Evidence-Interpretation), citation density rules, cross-reference conventions.
+- **references/structure_contract_cv.md** — Section hierarchy, narrative arc per section, paragraph-level patterns (Claim-Evidence-Interpretation), citation density rules, cross-reference conventions. **Use for CV/ML venues**: CVPR, ICCV, ECCV, ICML, ICLR.
+- **references/structure_contract_nlp.md** — NLP-domain narrative contract extracted from BERT (NAACL 2019) and Transformer (NeurIPS 2017). Covers Introduction consensus→limitation→solution arc, Related Work by methodology paradigm, flexible Method section, mandatory Limitations section, author-year citations, and A4 paper format. **Use for NLP venues**: ACL, EMNLP, NAACL, TACL, and NeurIPS NLP submissions.
 - **references/style_contract.md** — Typography system (fonts, sizes, weights), page layout (double-column vs single-column), heading hierarchy, mathematical notation conventions, color palette, header/footer rules, citation and reference formatting.
 - **references/figure_table_guidelines.md** — Figure numbering and caption placement, caption writing rules, figure layout specs, **figure embedding rules** (physical embed vs text reference), figure types, table formatting, equation environment rules, visual asset workflow, common anti-patterns.
 - **references/code_templates.py** — Production-ready python-docx code skeletons: `setup_document()`, `add_figure()`, `add_table_with_caption()`, `add_equation()`, `add_section_heading()`, `set_header_footer()`. Copy these functions into your generation script.

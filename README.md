@@ -8,7 +8,7 @@
 
 ## 核心定位
 
-基于 AI Agent 的 SCI 科研论文写作技能。遵循 CVPR / NeurIPS / ICML / ICLR / ACL / Nature Energy 等顶会规范，内置 5 阶段工作流 + 3 大规范契约 + 6 个增强脚本 + 可复用代码模板，输出可直接提交或审阅的论文文档。
+基于 AI Agent 的 SCI 科研论文写作技能。遵循 CVPR / NeurIPS / ICML / ICLR / ACL / EMNLP / NAACL / Nature Energy 等顶会规范，内置 5 阶段工作流 + **双领域规范契约**（CV + NLP）+ 6 个增强脚本 + 可复用代码模板，输出可直接提交或审阅的论文文档。
 
 | 维度 | 本 Skill 提供的能力 |
 |:-----|:-------------------|
@@ -147,7 +147,7 @@ flowchart TB
 
 | 层级 | 组件 | 技术 | 作用 |
 |:-----|:-----|:-----|:-----|
-| **规范层** | 叙事规范 | `structure_contract.md` | Intro 7 段漏斗、Method 3.1-3.4、Experiments 4.1-4.3 |
+| **规范层** | 叙事规范 | `structure_contract_cv.md` | Intro 7 段漏斗、Method 3.1-3.4、Experiments 4.1-4.3 |
 | | 排版规范 | `style_contract.md` | Times New Roman 10pt、编号引用 `[n]`、页眉页脚 |
 | | 图表规范 | `figure_table_guidelines.md` | 图注下方/表注上方、物理嵌入强制规则、色盲安全配色 |
 | **模板层** | 代码模板 | `code_templates.py` (python-docx) | `setup_document()`、`add_figure()`、`add_table_with_caption()`、`add_equation()` |
@@ -232,7 +232,8 @@ unzip sci-paper-writing.zip -d ~/.workbuddy/skills/sci-paper-writing/
 
 | 规范文件 | 控制维度 | 关键要求 |
 |:---------|:---------|:---------|
-| **structure_contract.md** | 叙事结构 | Intro 必须 5-7 段漏斗叙事；Method 必须 3.1-3.4；Experiments 必须 4.1-4.3 |
+| **structure_contract_cv.md** | 叙事结构（CV/ML） | Intro 必须 5-7 段漏斗叙事；Method 必须 3.1-3.4；Experiments 必须 4.1-4.3 |
+| **structure_contract_nlp.md** | 叙事结构（NLP） | Intro：共识→局限→方案弧；Related Work 按方法论范式组织；Limitations 强制；作者-年份引用；A4 纸张 |
 | **style_contract.md** | 视觉排版 | Times New Roman 10pt 正文；编号引用 `[n]`；页眉标题 + 页脚页码 |
 | **figure_table_guidelines.md** | 图表公式 | 图注在图**下方**；表注在表**上方**；先引用后出场；最优结果加粗；**图片物理嵌入强制规则** |
 
@@ -315,10 +316,15 @@ sci-paper-writing/
 │   └── venue_recommender.py              # 期刊/会议推荐（15个 venue，附截稿日期）
 │
 └── references/
-    ├── structure_contract.md             # 结构与叙事规范
-    │   ├── 章节层级（Intro 7段漏斗、Method 3.1-3.4、Experiments 4.1-4.3）
-    │   ├── 叙事弧（Claim → Evidence → Interpretation）
-    │   └── 引用密度规则
+    ├── structure_contract_cv.md             # CV/ML 叙事规范（ResNet Best Paper 提炼）
+    │   ├── Intro 7段漏斗、Method 3.1-3.4、Experiments 4.1-4.3
+    │   ├── Claim → Evidence → Interpretation 叙事弧
+    │   └── US Letter, 编号引用 [n]
+    │
+    ├── structure_contract_nlp.md         # NLP 叙事规范（BERT + Transformer 提炼）
+    │   ├── Intro：共识→局限→方案弧，Method 灵活组织
+    │   ├── Related Work 按方法论范式，Limitations 强制
+    │   └── A4, 作者-年份引用，DOI 强制
     │
     ├── style_contract.md                 # 视觉与排版规范
     │   ├── 字体系统（Times New Roman 10pt）
@@ -458,7 +464,7 @@ doc.save("paper.docx")
 | v1.2 | 新增代码模板 `code_templates.py`：setup_document, add_figure, add_table_with_caption, add_equation |
 | v1.3 | **关键修复**：新增图片物理嵌入强制规则，杜绝"有引用无图片"缺陷 |
 | v1.4 | 新增图片存在性检查、插入顺序验证、fallback 降级处理 |
-| **v1.5** | **6 大增强功能**：data_to_charts（实验数据→图表）、reference_fetcher（文献自动获取）、docx_validator（格式预检）、docx_to_latex（LaTeX 转换）、docx_to_html（交互式网页）、venue_recommender（会议推荐）；**智能表格 bold 检查**：三层过滤（属性表识别/方向检测/未知跳过），8 warnings → **0 warnings**；**扩展关键词库**：70+ 指标词 / 40+ 步骤词，覆盖多学科 |
+| **v1.5** | **6 大增强功能**：data_to_charts（实验数据→图表）、reference_fetcher（文献自动获取）、docx_validator（格式预检）、docx_to_latex（LaTeX 转换）、docx_to_html（交互式网页）、venue_recommender（会议推荐）；**智能表格 bold 检查**：三层过滤（属性表识别/方向检测/未知跳过），8 warnings → **0 warnings**；**扩展关键词库**：70+ 指标词 / 40+ 步骤词，覆盖多学科；**双领域规范**：新增 `structure_contract_nlp.md`（BERT + Transformer 提炼，ACL 官方格式校验），正式支持 NLP 论文生成 |
 
 ---
 
