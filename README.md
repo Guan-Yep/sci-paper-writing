@@ -339,6 +339,13 @@ sci-paper-writing/
     │   ├── add_equation()                # 编号公式
     │   └── EXAMPLE_USAGE                 # 完整使用示例
     │
+    └── latex_template.md                  # LaTeX 模板参考
+        ├── 5 个会议文档类速查
+        ├── 完整双栏模板代码
+        ├── 13 个关键 LaTeX 包说明
+        ├── pgfplots 图表生成
+        ├── booktabs 表格最佳实践
+        └── 编译命令（pdflatex → bibtex → pdflatex ×2）
 ```
 
 ---

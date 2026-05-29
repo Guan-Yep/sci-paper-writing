@@ -26,7 +26,8 @@ User request to write/format a scientific paper
 ├── Load reference contracts
 │   ├── references/structure_contract.md   → Section hierarchy, narrative arcs
 │   ├── references/style_contract.md       → Typography, layout, math notation
-│   └── references/figure_table_guidelines.md → Figures, tables, equations rules
+│   ├── references/figure_table_guidelines.md → Figures, tables, equations rules
+│   └── references/latex_template.md       → LaTeX template with packages, figures, tables, bibliography
 ├── Execute writing pipeline
 │   ├── Phase 1: Plan (venue, page limit, section budget)
 │   ├── Phase 2: Chart assets (generate all figures and tables)
@@ -342,6 +343,7 @@ This skill includes the following reference documents. Load the relevant file wh
 - **references/style_contract.md** — Typography system (fonts, sizes, weights), page layout (double-column vs single-column), heading hierarchy, mathematical notation conventions, color palette, header/footer rules, citation and reference formatting.
 - **references/figure_table_guidelines.md** — Figure numbering and caption placement, caption writing rules, figure layout specs, **figure embedding rules** (physical embed vs text reference), figure types, table formatting, equation environment rules, visual asset workflow, common anti-patterns.
 - **references/code_templates.py** — Production-ready python-docx code skeletons: `setup_document()`, `add_figure()`, `add_table_with_caption()`, `add_equation()`, `add_section_heading()`, `set_header_footer()`. Copy these functions into your generation script.
+- **references/latex_template.md** — LaTeX template reference for camera-ready PDF output. Covers document classes per venue, minimal double-column template, essential packages, pgfplots figure generation, table best practices with booktabs, bibliography style, and compilation commands.
 
 ## Example Trigger Phrases
 
